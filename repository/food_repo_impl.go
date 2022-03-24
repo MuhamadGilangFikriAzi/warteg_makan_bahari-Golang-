@@ -28,8 +28,9 @@ func (f *foodRepoImpl) GetPriceById(id int) int {
 func (f *foodRepoImpl) GetDataSearch(search string) model.Food {
 	var food model.Food
 	fmt.Println(search)
-	query := `select * from food where food_name = $1 or code = $1 limit 1`
-	f.foodDb.Get(&food, query, search)
+	query := `select * from food where upper(food_name) like upper($1) or code like $1 limit 1`
+
+	f.foodDb.Get(&food, query, fmt.Sprintf("%s%%", search)) // penggunaan like
 	return food
 }
 
