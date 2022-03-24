@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
 func SetHeader(title string) {
@@ -16,7 +17,16 @@ func ChoiceToMainMenu() {
 	fmt.Println("kembali ke main menu (y/n)")
 	fmt.Scan(&chose)
 	if chose != "y" {
-		fmt.Println("Selamat tinggal, Terimakasih...")
-		os.Exit(0)
+		SayGoodbay()
 	}
+}
+
+func SayGoodbay() {
+	fmt.Println("Selamat tinggal, Terimakasih...")
+	os.Exit(0)
+}
+
+func PauseProgram() {
+	duration := time.Duration(10)
+	time.Sleep(duration)
 }

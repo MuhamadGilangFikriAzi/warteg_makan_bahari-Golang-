@@ -26,6 +26,16 @@ func (f *transactionRepoImpl) GetLastId() int {
 	return lastId
 }
 
+func (f *transactionRepoImpl) CheckUnpaymentTransaction(id int) bool {
+	var status string
+	isAvailable := false
+	f.transactionDb.Get(&status, "select status from transaction_warteg where id = $1", id)
+	if status == "Finish" {
+		isAvailable = true
+	}
+	return isAvailable
+}
+
 func (f *transactionRepoImpl) AllPayment() []model.Transaction {
 	var table []model.Transaction
 	f.transactionDb.Select(&table, "select * from transaction_warteg where status = $1", "Proses")
@@ -33,7 +43,7 @@ func (f *transactionRepoImpl) AllPayment() []model.Transaction {
 }
 
 func (f *transactionRepoImpl) UpdatePayment(id int) {
-	f.transactionDb.Exec("update transaction_warteg set status = $1 where id = $2", "Finis", id)
+	f.transactionDb.Exec("update transaction_warteg set status = $1 where id = $2", "Finish", id)
 	var tableId int
 	f.transactionDb.Get(&tableId, "select table_id from transaction_warteg where id = $1", id)
 	f.transactionDb.Exec("update table_warteg set is_ordered = false where id = $1", tableId)

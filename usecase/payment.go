@@ -8,6 +8,7 @@ import (
 type PaymentUseCase interface {
 	AllPayment() []model.Transaction
 	UpdatePayment(id int)
+	CheckUnpaymentTransaction(id int) bool
 }
 
 type paymentUseCase struct {
@@ -20,6 +21,10 @@ func (f *paymentUseCase) AllPayment() []model.Transaction {
 
 func (f *paymentUseCase) UpdatePayment(id int) {
 	f.repo.UpdatePayment(id)
+}
+
+func (f *paymentUseCase) CheckUnpaymentTransaction(id int) bool {
+	return f.repo.CheckUnpaymentTransaction(id)
 }
 
 func NewPaymentUseCase(repo repository.TransactionRepo) PaymentUseCase {

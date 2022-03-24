@@ -13,9 +13,6 @@ type foodRepoImpl struct {
 func (f *foodRepoImpl) GetAll() []model.Food {
 	var food []model.Food
 	f.foodDb.Select(&food, "select * from food")
-	for _, val := range food {
-		fmt.Println(val)
-	}
 	return food
 }
 
@@ -29,7 +26,6 @@ func (f *foodRepoImpl) GetDataSearch(search string) model.Food {
 	var food model.Food
 	fmt.Println(search)
 	query := `select * from food where upper(food_name) like upper($1) or code like $1 limit 1`
-
 	f.foodDb.Get(&food, query, fmt.Sprintf("%s%%", search)) // penggunaan like
 	return food
 }

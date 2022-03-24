@@ -8,4 +8,5 @@ type TransactionRepo interface {
 	GetNextId() int
 	AllPayment() []model.Transaction
 	UpdatePayment(id int)
+	CheckUnpaymentTransaction(id int) bool
 }

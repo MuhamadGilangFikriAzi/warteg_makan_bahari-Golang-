@@ -5,7 +5,6 @@ import (
 	"WMB/delivery"
 	"WMB/delivery/utility"
 	"fmt"
-	"os"
 )
 
 func main() {
@@ -25,7 +24,7 @@ func main() {
 		case 4:
 			delivery.Payment(appConfig.UseCaseManager)
 		case 5:
-			os.Exit(0)
+			utility.SayGoodbay()
 		default:
 			fmt.Println("Tidak ada pilihan itu")
 		}
