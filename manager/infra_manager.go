@@ -1,6 +1,11 @@
 package manager
 
-import "github.com/jmoiron/sqlx"
+import (
+	"fmt"
+	_ "github.com/jackc/pgx/v4/stdlib"
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
+)
 
 type Infra interface {
 	SqlDb() *sqlx.DB
@@ -14,6 +19,7 @@ func (i *infra) SqlDb() *sqlx.DB {
 }
 
 func NewInfra(dataSourceName string) Infra {
+	fmt.Println(dataSourceName)
 	conn, err := sqlx.Connect("pgx", dataSourceName)
 	if err != nil {
 		panic(err)

@@ -1,0 +1,11 @@
+wmb:
+  name: "Warung Makan Bahari App"
+  api:
+    url: "localhost:7777"
+    token: "123"
+  database:
+    host: "localhost"
+    port: "5432"
+    name: "db_wmb"
+    user: "postgres"
+    password: "12345"
