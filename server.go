@@ -28,6 +28,9 @@ func (w *wartegServer) v1() {
 
 	transactionApiGroup := w.router.Group("/transaction")
 	api.NewTransactionApi(transactionApiGroup, w.config.UseCaseManager)
+
+	loginApiGroup := w.router.Group("/login")
+	api.NewLoginApi(loginApiGroup, w.config.UseCaseManager.LoginUseCase())
 }
 
 func (w *wartegServer) Run() {

@@ -8,6 +8,7 @@ type UseCaseManager interface {
 	AvaibleTableUseCase() usecase.AvaibleTableUseCase
 	FoodOrderDetailUseCase() usecase.FoodOrederDetailUseCase
 	PaymentUseCase() usecase.PaymentUseCase
+	LoginUseCase() usecase.LoginUsecase
 }
 type useCaseManager struct {
 	repo RepoManager
@@ -31,6 +32,10 @@ func (u *useCaseManager) FoodOrderDetailUseCase() usecase.FoodOrederDetailUseCas
 
 func (u *useCaseManager) PaymentUseCase() usecase.PaymentUseCase {
 	return usecase.NewPaymentUseCase(u.repo.TransactionRepo())
+}
+
+func (u *useCaseManager) LoginUseCase() usecase.LoginUsecase {
+	return usecase.NewLoginUsecase(u.repo.UsersRepo())
 }
 
 func NewUseCaseManager(repo RepoManager) UseCaseManager {

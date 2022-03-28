@@ -7,6 +7,7 @@ type RepoManager interface {
 	TableRepo() repository.TableRepo
 	TransactionRepo() repository.TransactionRepo
 	TransactionDetailRepo() repository.TransactionDetailRepo
+	UsersRepo() repository.UsersRepo
 }
 
 type repoManager struct {
@@ -27,6 +28,10 @@ func (r *repoManager) TransactionRepo() repository.TransactionRepo {
 
 func (r *repoManager) TransactionDetailRepo() repository.TransactionDetailRepo {
 	return repository.NewTransactionDetailRepo(r.infra.SqlDb())
+}
+
+func (r *repoManager) UsersRepo() repository.UsersRepo {
+	return repository.NewUsersRepo(r.infra.SqlDb())
 }
 
 func NewRepoManager(infra Infra) RepoManager {

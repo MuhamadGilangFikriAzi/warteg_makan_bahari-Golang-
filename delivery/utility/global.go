@@ -30,3 +30,7 @@ func PauseProgram() {
 	duration := time.Duration(10)
 	time.Sleep(duration)
 }
+
+func GetTimestamp() string {
+	return time.Now().String()
+}
