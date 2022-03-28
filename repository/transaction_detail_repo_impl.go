@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"WMB/model"
+	"WMB/delivery/apprequest"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -9,7 +9,7 @@ type transactionDetailRepoImpl struct {
 	transactionDetailDb *sqlx.DB
 }
 
-func (f *transactionDetailRepoImpl) InsertTransactionDetail(transactionId int, dataDetail []model.TransactionDetail) {
+func (f *transactionDetailRepoImpl) InsertTransactionDetail(transactionId int, dataDetail []apprequest.TransactionDetailRequest) {
 
 	for _, detail := range dataDetail {
 		f.transactionDetailDb.Exec("insert into transaction_detail(id, transaction_id, food_id, qty) values($1, $2, $3, $4)", f.GetNextDetailId(), transactionId, detail.FoodId, detail.Qty)

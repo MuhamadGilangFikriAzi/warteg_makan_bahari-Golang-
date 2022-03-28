@@ -2,10 +2,9 @@ package api
 
 import (
 	"WMB/delivery/apprequest"
-	"WMB/delivery/commonresp"
 	"WMB/manager"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type TransactionApi struct {
@@ -16,9 +15,15 @@ func (t *TransactionApi) StoreTransaction() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var transactionReq apprequest.TransactionRequest
 		if err := c.ShouldBindJSON(&transactionReq); err != nil {
-			fmt.Println(transactionReq)
-			commonresp.NewJsonResponse(c).SendData(commonresp.NewResponMessage("200", "All Data Food", transactionReq))
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"meessage": "Can not bind json",
+			})
+			return
+			//commonresp.NewJsonResponse(c).SendData(commonresp.NewResponMessage("200", "Insert Succesfull", transactionReq))
 		}
+		t.usecase.FoodOrderUseCase().InsertTransaction(transactionReq)
+		c.JSON(http.StatusOK, transactionReq)
+		return
 	}
 }
 

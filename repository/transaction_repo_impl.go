@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"WMB/delivery/apprequest"
+	"WMB/delivery/utility"
 	"WMB/model"
 	"fmt"
 	"github.com/jmoiron/sqlx"
@@ -10,11 +12,23 @@ type transactionRepoImpl struct {
 	transactionDb *sqlx.DB
 }
 
-func (f *transactionRepoImpl) InsertTransaction(transaction model.Transaction) int {
+func (f *transactionRepoImpl) InsertTransaction(transaction apprequest.TransactionRequest) int {
+	//timestamp := time.Now() // format waktu saat ini
+	//fmt.Println(timestamp)
+	//fmt.Println(transaction.CustomerName)
 	tx := f.transactionDb.MustBegin()
-	_, err := tx.Exec("insert into transaction_warteg(id, table_id, customer_name, total, status) values($1, $2, $3, $4, $5)", f.GetNextId(), transaction.TableId, transaction.CustomerName, transaction.Total, transaction.Status)
+	idTransaction := utility.GetUuid()
+	var transactionDetailId string
+	_, err := tx.Exec("insert into transaction_warteg(id, table_id, customer_name, status) values($1, $2, $3, $4)", idTransaction, transaction.TableId, transaction.CustomerName, "Proses")
 	if err != nil {
 		fmt.Println(err)
+	}
+	for _, detail := range transaction.TransactionDetail {
+		transactionDetailId = utility.GetUuid()
+		_, err = tx.Exec("insert into transaction_detail(id, transaction_id, food_id, qty) values($1, $2, $3, $4)", transactionDetailId, idTransaction, detail.FoodId, detail.Qty)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 	tx.Commit()
 	return f.GetLastId()

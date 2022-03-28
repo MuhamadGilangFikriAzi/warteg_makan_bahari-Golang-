@@ -1,9 +1,12 @@
 package repository
 
-import "WMB/model"
+import (
+	"WMB/delivery/apprequest"
+	"WMB/model"
+)
 
 type TransactionRepo interface {
-	InsertTransaction(transaction model.Transaction) int
+	InsertTransaction(transaction apprequest.TransactionRequest) int
 	GetLastId() int
 	GetNextId() int
 	AllPayment() []model.Transaction

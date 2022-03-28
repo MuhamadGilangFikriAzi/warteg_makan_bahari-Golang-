@@ -1,24 +1,29 @@
 package usecase
 
 import (
-	"WMB/model"
+	"WMB/delivery/apprequest"
 	"WMB/repository"
 )
 
 type FoodOrederUseCase interface {
-	InsertTransaction(transaction model.Transaction) int
+	InsertTransaction(transaction apprequest.TransactionRequest)
 }
 
 type foodOrderUseCase struct {
-	repo repository.TransactionRepo
+	repo       repository.TransactionRepo
+	repoDetail repository.TransactionDetailRepo
 }
 
-func (f *foodOrderUseCase) InsertTransaction(transaction model.Transaction) int {
-	return f.repo.InsertTransaction(transaction)
+func (f *foodOrderUseCase) InsertTransaction(transaction apprequest.TransactionRequest) {
+	//transactionId := f.repo.InsertTransaction(transaction)
+	//fmt.Println(transaction.CustomerName)
+	f.repo.InsertTransaction(transaction)
+	//f.repoDetail.InsertTransactionDetail(transactionId, transaction.TransactionDetail)
 }
 
-func NewFoodOrderUseCase(repo repository.TransactionRepo) FoodOrederUseCase {
+func NewFoodOrderUseCase(repo repository.TransactionRepo, repoDetail repository.TransactionDetailRepo) FoodOrederUseCase {
 	return &foodOrderUseCase{
-		repo: repo,
+		repo:       repo,
+		repoDetail: repoDetail,
 	}
 }

@@ -18,7 +18,7 @@ func (u *useCaseManager) FoodListUseCase() usecase.FoodListUseCase {
 }
 
 func (u *useCaseManager) FoodOrderUseCase() usecase.FoodOrederUseCase {
-	return usecase.NewFoodOrderUseCase(u.repo.TransactionRepo())
+	return usecase.NewFoodOrderUseCase(u.repo.TransactionRepo(), u.repo.TransactionDetailRepo())
 }
 
 func (u *useCaseManager) AvaibleTableUseCase() usecase.AvaibleTableUseCase {
