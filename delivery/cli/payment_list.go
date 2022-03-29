@@ -1,4 +1,4 @@
-package delivery
+package cli
 
 import (
 	"WMB/model"

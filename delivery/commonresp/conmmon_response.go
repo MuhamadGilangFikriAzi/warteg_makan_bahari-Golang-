@@ -21,6 +21,7 @@ type ErrorMessage struct {
 
 type ErrorDescription struct {
 	Status       string `json:"status"`
+	Service      string `json:"service"`
 	ResponseCode string `json:"response_code"`
 	Description  string `json:"description"`
 }
@@ -50,10 +51,11 @@ func NewResponMessage(responCode string, description string, data interface{}) R
 	}
 }
 
-func NewErrorMessage(httpCode int, resCode string, description string) ErrorMessage {
+func NewErrorMessage(httpCode int, service string, resCode string, description string) ErrorMessage {
 	return ErrorMessage{
 		httpCode, ErrorDescription{
 			"Error",
+			service,
 			resCode,
 			description,
 		},

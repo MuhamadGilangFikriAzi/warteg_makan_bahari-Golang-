@@ -17,9 +17,14 @@ type wartegServer struct {
 }
 
 func (w *wartegServer) initHandlers() {
-	token := w.config.Get("wmb.api.token")
-	w.router.Use(middleware.TokenAuthMiddleware(token))
+	w.loginUrl()
+	w.router.Use(middleware.TokenAuthMiddleware(w.config.InfraManager.SqlDb()))
 	w.v1()
+}
+
+func (w *wartegServer) loginUrl() {
+	loginApiGroup := w.router.Group("/login")
+	api.NewLoginApi(loginApiGroup, w.config.UseCaseManager.LoginUseCase())
 }
 
 func (w *wartegServer) v1() {
@@ -28,9 +33,6 @@ func (w *wartegServer) v1() {
 
 	transactionApiGroup := w.router.Group("/transaction")
 	api.NewTransactionApi(transactionApiGroup, w.config.UseCaseManager)
-
-	loginApiGroup := w.router.Group("/login")
-	api.NewLoginApi(loginApiGroup, w.config.UseCaseManager.LoginUseCase())
 }
 
 func (w *wartegServer) Run() {
