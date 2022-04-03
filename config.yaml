@@ -2,7 +2,6 @@ wmb:
   name: "Warung Makan Bahari App"
   api:
     url: "localhost:7777"
-    token: "123"
   database:
     host: "localhost"
     port: "5432"

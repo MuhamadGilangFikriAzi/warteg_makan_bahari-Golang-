@@ -22,6 +22,10 @@ func (t *TransactionApi) StoreTransaction() gin.HandlerFunc {
 			//commonresp.NewJsonResponse(c).SendData(commonresp.NewResponMessage("200", "Insert Succesfull", transactionReq))
 		}
 		t.usecase.FoodOrderUseCase().InsertTransaction(transactionReq)
+		c.JSON(http.StatusOK, gin.H{
+			"Message": transactionReq,
+		})
+		//c.Abort()
 		c.JSON(http.StatusOK, transactionReq)
 		return
 	}

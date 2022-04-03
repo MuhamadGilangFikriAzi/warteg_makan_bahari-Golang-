@@ -1,9 +1,12 @@
 package config
 
 import (
+	"WMB/authenticator"
 	"WMB/manager"
 	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
+	"time"
 )
 
 type Config struct {
@@ -12,6 +15,7 @@ type Config struct {
 	InfraManager   manager.Infra
 	RepoManager    manager.RepoManager
 	UseCaseManager manager.UseCaseManager
+	ConfigToken    authenticator.Token
 }
 
 func (c *Config) readConfigFile() *viper.Viper {
@@ -48,7 +52,18 @@ func New(path string, configFileName string) *Config {
 	config.InfraManager = infraManager
 	config.RepoManager = repoManager
 	config.UseCaseManager = useCaseManager
+	config.ConfigToken = newTokenConfig()
 	//config.name = configFileName
 	//config.path = path
 	return config
+}
+
+func newTokenConfig() authenticator.Token {
+	tokenConfig := authenticator.TokenConfig{
+		AplicationName:      "Warung Makan Bahari",
+		JwtSignatureKey:     "P@ssw0rd",
+		JwtSignatureMethod:  jwt.SigningMethodHS256,
+		AccessTokenDuration: 600 * time.Second,
+	}
+	return authenticator.NewToken(tokenConfig)
 }
